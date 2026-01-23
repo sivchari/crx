@@ -32,6 +32,8 @@ archives:
     files:
       - LICENSE
       - README.md
+    ids:
+      - crx
 
 checksum:
   name_template: "{{ .ProjectName }}_{{ .Version }}_checksums.txt"
@@ -40,4 +42,15 @@ changelog:
   sort: asc
 
 release:
-  draft: true
+  use_existing_draft: true
+
+homebrew_casks:
+  - name: crx
+    repository:
+      owner: sivchari
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: https://github.com/sivchari/crx
+    description: "Declarative Chrome extension manager using Chrome Enterprise Policy"
+    license: MIT
+    binaries: [crx]
