@@ -7,6 +7,7 @@ import (
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+
 	"github.com/user/crx/internal/registry"
 )
 
@@ -36,7 +37,6 @@ type Model struct {
 	cursor    int
 	textInput textinput.Model
 	searching bool
-	err       error
 	quitting  bool
 	width     int
 	height    int
