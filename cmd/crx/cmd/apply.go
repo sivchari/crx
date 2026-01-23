@@ -5,6 +5,7 @@ import (
 	"runtime"
 
 	"github.com/spf13/cobra"
+
 	"github.com/user/crx/internal/config"
 	"github.com/user/crx/internal/policy"
 	"github.com/user/crx/internal/registry"

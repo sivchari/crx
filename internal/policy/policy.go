@@ -219,8 +219,7 @@ func (g *Generator) applyLinux(policy *Policy) error {
 func (g *Generator) applyWindows(policy *Policy) error {
 	// Windows requires registry modification
 	// For now, output instructions
-	return fmt.Errorf("Windows support not yet implemented. Please manually add to registry:\n" +
-		"HKLM\\SOFTWARE\\Policies\\Google\\Chrome\\ExtensionInstallForcelist")
+	return fmt.Errorf("windows support not yet implemented: please manually add to registry: HKLM\\SOFTWARE\\Policies\\Google\\Chrome\\ExtensionInstallForcelist")
 }
 
 // WriteToFile writes the policy to a JSON file (for dry-run or backup).
