@@ -45,7 +45,7 @@ func DefaultConfig() *Config {
 			{
 				Name: "standard",
 				Type: "github",
-				Repo: "user/crx-registry",
+				Repo: "sivchari/crx-registry",
 				Ref:  "main",
 			},
 		},

@@ -6,9 +6,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/user/crx/internal/config"
-	"github.com/user/crx/internal/policy"
-	"github.com/user/crx/internal/registry"
+	"github.com/sivchari/crx/internal/config"
+	"github.com/sivchari/crx/internal/policy"
+	"github.com/sivchari/crx/internal/registry"
 )
 
 var (

@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/user/crx/internal/config"
-	"github.com/user/crx/internal/registry"
+	"github.com/sivchari/crx/internal/config"
+	"github.com/sivchari/crx/internal/registry"
 )
 
 var addRegistryPath string
