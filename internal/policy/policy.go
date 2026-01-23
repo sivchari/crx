@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/user/crx/internal/config"
-	"github.com/user/crx/internal/registry"
+	"github.com/sivchari/crx/internal/config"
+	"github.com/sivchari/crx/internal/registry"
 )
 
 // Policy represents Chrome Enterprise Policy for extensions.

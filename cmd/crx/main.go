@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/user/crx/cmd/crx/cmd"
+	"github.com/sivchari/crx/cmd/crx/cmd"
 )
 
 func main() {

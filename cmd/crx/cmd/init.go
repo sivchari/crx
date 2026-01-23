@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/user/crx/internal/config"
+	"github.com/sivchari/crx/internal/config"
 )
 
 var initCmd = &cobra.Command{

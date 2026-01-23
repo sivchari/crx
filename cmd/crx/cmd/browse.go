@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/user/crx/internal/config"
-	"github.com/user/crx/internal/registry"
-	"github.com/user/crx/internal/tui"
+	"github.com/sivchari/crx/internal/config"
+	"github.com/sivchari/crx/internal/registry"
+	"github.com/sivchari/crx/internal/tui"
 )
 
 var browseRegistryPath string

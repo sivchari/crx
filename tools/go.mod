@@ -1,4 +1,4 @@
-module github.com/user/crx/tools
+module github.com/sivchari/crx/tools
 
 go 1.24.0
 

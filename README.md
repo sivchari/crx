@@ -17,13 +17,13 @@ crx allows you to manage Chrome extensions across all profiles using a YAML conf
 ## Installation
 
 ```bash
-go install github.com/user/crx/cmd/crx@latest
+go install github.com/sivchari/crx/cmd/crx@latest
 ```
 
 Or build from source:
 
 ```bash
-git clone https://github.com/user/crx.git
+git clone https://github.com/sivchari/crx.git
 cd crx
 go build ./cmd/crx
 ```
@@ -60,7 +60,7 @@ Configuration file location: `~/.config/crx/config.yaml`
 registries:
   - name: standard
     type: github
-    repo: user/crx-registry
+    repo: sivchari/crx-registry
     ref: main
 
 extensions:
