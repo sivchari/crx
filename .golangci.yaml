@@ -4,19 +4,26 @@ run:
   timeout: 5m
 
 linters:
+  default: none
   enable:
     - errcheck
     - govet
     - ineffassign
     - staticcheck
     - unused
-    - gofmt
-    - goimports
     - misspell
 
-linters-settings:
-  goimports:
-    local-prefixes: github.com/user/crx
+formatters:
+  enable:
+    - gofmt
+    - gci
+    - goimports
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - localmodule
 
 issues:
   exclude-use-default: false
