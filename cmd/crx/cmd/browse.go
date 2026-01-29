@@ -10,8 +10,6 @@ import (
 	"github.com/sivchari/crx/internal/tui"
 )
 
-var browseRegistryPath string
-
 var browseCmd = &cobra.Command{
 	Use:   "browse",
 	Short: "Browse and select extensions interactively",
@@ -19,12 +17,8 @@ var browseCmd = &cobra.Command{
 	Run:   runBrowse,
 }
 
-func init() {
-	browseCmd.Flags().StringVar(&browseRegistryPath, "registry", "", "Local registry path (for testing)")
-}
-
 func runBrowse(cmd *cobra.Command, args []string) {
-	packages, err := fetchAllPackages(browseRegistryPath)
+	packages, err := fetchAllPackages()
 	if err != nil {
 		exitWithError("Failed to fetch packages", err)
 	}
@@ -68,27 +62,8 @@ func runBrowse(cmd *cobra.Command, args []string) {
 	}
 }
 
-// fetchAllPackages fetches all packages from local or remote registry.
-func fetchAllPackages(localPath string) ([]*registry.Package, error) {
-	if localPath != "" {
-		loader := registry.NewLoader(localPath)
-		return loader.LoadAllPackages()
-	}
-
-	cfg, err := config.Load()
-	if err != nil {
-		return nil, err
-	}
-
-	if len(cfg.Registries) == 0 {
-		return nil, fmt.Errorf("no registries configured")
-	}
-
-	reg := cfg.Registries[0]
-	if reg.Type != "github" {
-		return nil, fmt.Errorf("unsupported registry type: %s", reg.Type)
-	}
-
-	fetcher := registry.NewGitHubFetcher(reg.Repo, reg.Ref)
+// fetchAllPackages fetches all packages from the registry.
+func fetchAllPackages() ([]*registry.Package, error) {
+	fetcher := registry.NewDefaultFetcher()
 	return fetcher.FetchAllPackages()
 }

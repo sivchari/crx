@@ -19,3 +19,14 @@ type Registry struct {
 
 // CRXUpdateURL is the Chrome Web Store update URL.
 const CRXUpdateURL = "https://clients2.google.com/service/update2/crx"
+
+// Default registry configuration.
+const (
+	DefaultRegistryRepo = "sivchari/crx-registry"
+	DefaultRegistryRef  = "main"
+)
+
+// NewDefaultFetcher creates a GitHubFetcher for the default registry.
+func NewDefaultFetcher() *GitHubFetcher {
+	return NewGitHubFetcher(DefaultRegistryRepo, DefaultRegistryRef)
+}
