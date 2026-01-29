@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/sivchari/crx/internal/config"
+	"github.com/sivchari/crx/internal/logger"
 	"github.com/sivchari/crx/internal/policy"
 	"github.com/sivchari/crx/internal/registry"
 )
@@ -25,6 +26,8 @@ func init() {
 }
 
 func runApply(cmd *cobra.Command, args []string) {
+	logger.Debug("applying configuration", "dry_run", dryRun)
+
 	cfg, err := config.Load()
 	if err != nil {
 		exitWithError("Failed to load configuration", err)
@@ -34,12 +37,14 @@ func runApply(cmd *cobra.Command, args []string) {
 		fmt.Println("No extensions configured.")
 		return
 	}
+	logger.Debug("extensions loaded", "count", len(cfg.Extensions))
 
 	// Load packages from registry
 	packages, err := loadPackages(cfg.Extensions)
 	if err != nil {
 		exitWithError("Failed to load packages", err)
 	}
+	logger.Debug("packages fetched from registry", "count", len(packages))
 
 	// Generate policy
 	gen := policy.NewGenerator(cfg, packages)
@@ -47,6 +52,7 @@ func runApply(cmd *cobra.Command, args []string) {
 	if err != nil {
 		exitWithError("Failed to generate policy", err)
 	}
+	logger.Debug("policy generated", "mode", cfg.Settings.Mode)
 
 	if dryRun {
 		json, err := gen.ToJSON(pol)
@@ -62,6 +68,7 @@ func runApply(cmd *cobra.Command, args []string) {
 	if err := gen.Apply(pol); err != nil {
 		exitWithError("Failed to apply policy", err)
 	}
+	logger.Debug("policy applied", "path", policy.GetPolicyPath())
 
 	fmt.Printf("Policy applied to: %s\n", policy.GetPolicyPath())
 

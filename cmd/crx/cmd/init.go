@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/sivchari/crx/internal/config"
+	"github.com/sivchari/crx/internal/logger"
 )
 
 var initCmd = &cobra.Command{
@@ -17,12 +18,16 @@ var initCmd = &cobra.Command{
 }
 
 func runInit(cmd *cobra.Command, args []string) {
+	logger.Debug("initializing configuration")
+
 	path, err := config.ConfigPath()
 	if err != nil {
 		exitWithError("Failed to get config path", err)
 	}
+	logger.Debug("config path resolved", "path", path)
 
 	if _, err := os.Stat(path); err == nil {
+		logger.Debug("configuration already exists")
 		fmt.Printf("Configuration already exists at %s\n", path)
 		return
 	}
@@ -31,6 +36,7 @@ func runInit(cmd *cobra.Command, args []string) {
 	if err := cfg.Save(); err != nil {
 		exitWithError("Failed to save configuration", err)
 	}
+	logger.Debug("configuration saved")
 
 	fmt.Printf("Configuration created at %s\n", path)
 	fmt.Println("\nNext steps:")
