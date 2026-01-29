@@ -1,11 +1,14 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
+
+	"github.com/sivchari/crx/internal/logger"
 )
+
+var verbose bool
 
 var rootCmd = &cobra.Command{
 	Use:   "crx",
@@ -14,6 +17,9 @@ var rootCmd = &cobra.Command{
 
 It allows you to manage Chrome extensions using a YAML configuration file
 and generates Chrome Enterprise Policy JSON for installation.`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		logger.Init(verbose)
+	},
 }
 
 func Execute() error {
@@ -21,6 +27,8 @@ func Execute() error {
 }
 
 func init() {
+	rootCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "v", false, "Enable verbose output")
+
 	rootCmd.AddCommand(initCmd)
 	rootCmd.AddCommand(addCmd)
 	rootCmd.AddCommand(listCmd)
@@ -30,9 +38,9 @@ func init() {
 
 func exitWithError(msg string, err error) {
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %v\n", msg, err)
+		logger.Error(msg, "error", err)
 	} else {
-		fmt.Fprintln(os.Stderr, msg)
+		logger.Error(msg)
 	}
 	os.Exit(1)
 }

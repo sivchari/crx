@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/sivchari/crx/internal/config"
+	"github.com/sivchari/crx/internal/logger"
 )
 
 var listCmd = &cobra.Command{
@@ -16,10 +17,13 @@ var listCmd = &cobra.Command{
 }
 
 func runList(cmd *cobra.Command, args []string) {
+	logger.Debug("listing configured extensions")
+
 	cfg, err := config.Load()
 	if err != nil {
 		exitWithError("Failed to load configuration", err)
 	}
+	logger.Debug("configuration loaded", "extensions", len(cfg.Extensions))
 
 	if len(cfg.Extensions) == 0 {
 		fmt.Println("No extensions configured.")
