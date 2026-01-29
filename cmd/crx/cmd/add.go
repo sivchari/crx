@@ -9,18 +9,12 @@ import (
 	"github.com/sivchari/crx/internal/registry"
 )
 
-var addRegistryPath string
-
 var addCmd = &cobra.Command{
 	Use:   "add <extension>",
 	Short: "Add an extension to the configuration",
 	Long:  `Adds the specified extension to your configuration file.`,
 	Args:  cobra.ExactArgs(1),
 	Run:   runAdd,
-}
-
-func init() {
-	addCmd.Flags().StringVar(&addRegistryPath, "registry", "", "Local registry path (for testing)")
 }
 
 func runAdd(cmd *cobra.Command, args []string) {
@@ -32,7 +26,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 	}
 
 	// Verify extension exists in registry
-	pkg, err := verifyPackage(cfg, name, addRegistryPath)
+	pkg, err := verifyPackage(name)
 	if err != nil {
 		exitWithError("Extension not found in registry", err)
 	}
@@ -48,21 +42,7 @@ func runAdd(cmd *cobra.Command, args []string) {
 }
 
 // verifyPackage checks if a package exists in the registry.
-func verifyPackage(cfg *config.Config, name, localPath string) (*registry.Package, error) {
-	if localPath != "" {
-		loader := registry.NewLoader(localPath)
-		return loader.LoadPackage(name)
-	}
-
-	if len(cfg.Registries) == 0 {
-		return nil, fmt.Errorf("no registries configured")
-	}
-
-	reg := cfg.Registries[0]
-	if reg.Type != "github" {
-		return nil, fmt.Errorf("unsupported registry type: %s", reg.Type)
-	}
-
-	fetcher := registry.NewGitHubFetcher(reg.Repo, reg.Ref)
+func verifyPackage(name string) (*registry.Package, error) {
+	fetcher := registry.NewDefaultFetcher()
 	return fetcher.FetchPackage(name)
 }

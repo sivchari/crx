@@ -11,10 +11,7 @@ import (
 	"github.com/sivchari/crx/internal/registry"
 )
 
-var (
-	dryRun       bool
-	registryPath string
-)
+var dryRun bool
 
 var applyCmd = &cobra.Command{
 	Use:   "apply",
@@ -25,7 +22,6 @@ var applyCmd = &cobra.Command{
 
 func init() {
 	applyCmd.Flags().BoolVar(&dryRun, "dry-run", false, "Show changes without applying")
-	applyCmd.Flags().StringVar(&registryPath, "registry", "", "Local registry path (for testing)")
 }
 
 func runApply(cmd *cobra.Command, args []string) {
@@ -40,7 +36,7 @@ func runApply(cmd *cobra.Command, args []string) {
 	}
 
 	// Load packages from registry
-	packages, err := loadPackages(cfg, registryPath)
+	packages, err := loadPackages(cfg.Extensions)
 	if err != nil {
 		exitWithError("Failed to load packages", err)
 	}
@@ -80,35 +76,12 @@ func runApply(cmd *cobra.Command, args []string) {
 	}
 }
 
-// loadPackages loads packages from local or remote registry.
-func loadPackages(cfg *config.Config, localPath string) ([]*registry.Package, error) {
-	packages := make([]*registry.Package, 0, len(cfg.Extensions))
+// loadPackages loads packages from the registry.
+func loadPackages(extensions []string) ([]*registry.Package, error) {
+	packages := make([]*registry.Package, 0, len(extensions))
+	fetcher := registry.NewDefaultFetcher()
 
-	if localPath != "" {
-		// Use local registry
-		loader := registry.NewLoader(localPath)
-		for _, name := range cfg.Extensions {
-			pkg, err := loader.LoadPackage(name)
-			if err != nil {
-				return nil, fmt.Errorf("failed to load package %s: %w", name, err)
-			}
-			packages = append(packages, pkg)
-		}
-		return packages, nil
-	}
-
-	// Use remote registry from config
-	if len(cfg.Registries) == 0 {
-		return nil, fmt.Errorf("no registries configured")
-	}
-
-	reg := cfg.Registries[0]
-	if reg.Type != "github" {
-		return nil, fmt.Errorf("unsupported registry type: %s", reg.Type)
-	}
-
-	fetcher := registry.NewGitHubFetcher(reg.Repo, reg.Ref)
-	for _, name := range cfg.Extensions {
+	for _, name := range extensions {
 		pkg, err := fetcher.FetchPackage(name)
 		if err != nil {
 			return nil, fmt.Errorf("failed to fetch package %s: %w", name, err)

@@ -11,18 +11,8 @@ import (
 
 // Config represents the user configuration.
 type Config struct {
-	Registries []RegistryConfig `yaml:"registries"`
-	Extensions []string         `yaml:"extensions"`
-	Settings   Settings         `yaml:"settings"`
-}
-
-// RegistryConfig represents a registry source.
-type RegistryConfig struct {
-	Name string `yaml:"name"`
-	Type string `yaml:"type"` // "github" or "local"
-	Repo string `yaml:"repo,omitempty"`
-	Path string `yaml:"path,omitempty"`
-	Ref  string `yaml:"ref,omitempty"`
+	Extensions []string `yaml:"extensions"`
+	Settings   Settings `yaml:"settings"`
 }
 
 // Settings represents the application settings.
@@ -41,14 +31,6 @@ const (
 // DefaultConfig returns the default configuration.
 func DefaultConfig() *Config {
 	return &Config{
-		Registries: []RegistryConfig{
-			{
-				Name: "standard",
-				Type: "github",
-				Repo: "sivchari/crx-registry",
-				Ref:  "main",
-			},
-		},
 		Extensions: []string{},
 		Settings: Settings{
 			PolicyPath: defaultPolicyPath(),

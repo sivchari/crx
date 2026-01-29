@@ -184,3 +184,29 @@ func CacheDir() (string, error) {
 	}
 	return filepath.Join(home, ".cache", "crx"), nil
 }
+
+func matchesQuery(pkg *Package, query string) bool {
+	if contains(pkg.Name, query) || contains(pkg.DisplayName, query) {
+		return true
+	}
+	for _, tag := range pkg.Tags {
+		if contains(tag, query) {
+			return true
+		}
+	}
+	return false
+}
+
+func contains(s, substr string) bool {
+	return len(s) >= len(substr) && (s == substr || len(substr) == 0 ||
+		(len(s) > 0 && len(substr) > 0 && searchString(s, substr)))
+}
+
+func searchString(s, substr string) bool {
+	for i := 0; i <= len(s)-len(substr); i++ {
+		if s[i:i+len(substr)] == substr {
+			return true
+		}
+	}
+	return false
+}
