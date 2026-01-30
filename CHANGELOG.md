@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.0.2](https://github.com/sivchari/crx/compare/v0.0.1...v0.0.2) - 2026-01-30
+- fix: hardcode registry to sivchari/crx-registry by @sivchari in https://github.com/sivchari/crx/pull/18
+- feat: add logging support with charmbracelet/log by @sivchari in https://github.com/sivchari/crx/pull/20
+- feat: add remove command by @sivchari in https://github.com/sivchari/crx/pull/21
+- feat: add Windows support by @sivchari in https://github.com/sivchari/crx/pull/22
+
 ## [v0.0.1](https://github.com/sivchari/crx/commits/v0.0.1) - 2026-01-23
 - feat(config): add configuration management by @sivchari in https://github.com/sivchari/crx/pull/1
 - feat(registry): add registry loader and types by @sivchari in https://github.com/sivchari/crx/pull/2
